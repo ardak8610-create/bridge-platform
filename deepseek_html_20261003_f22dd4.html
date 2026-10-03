@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRIDGE — Learning Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a2140; --ink-soft:#3d456b; --muted:#6b7396;
+  --edge:rgba(124,154,255,.22); --accent:#5b76e0; --gold:#c8913f;
+  --paper:#fbf7f0; --ok:#28c840; --warn:#e8a15c; --err:#ff5f57;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',system-ui,sans-serif; color:var(--ink);
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse 80% 45% at 50% 100%, rgba(232,161,92,.16), transparent 65%),
+    radial-gradient(ellipse 60% 38% at 50% 96%, rgba(124,154,255,.12), transparent 70%),
+    linear-gradient(180deg,#fdfbf6 0%,#f4f1ea 45%,#eef0f7 75%,#e6e8f4 100%);
+  background-attachment:fixed;
+}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 20px 80px}
+
+/* HEADER */
+header.top{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:20px;padding:16px 24px;margin-bottom:24px;
+  background:rgba(255,255,255,.75);backdrop-filter:blur(12px);
+  border:1px solid var(--edge);border-radius:16px;
+  box-shadow:0 4px 20px rgba(26,33,64,.05);
+  position:sticky;top:12px;z-index:50;
+}
+.brand{display:flex;align-items:center;gap:14px;cursor:pointer}
+.brand svg{width:52px;height:22px}
+.brand h1{
+  font-family:'Playfair Display',serif;font-size:24px;font-weight:800;
+  letter-spacing:.12em;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.brand .sub{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav button{
+  font-family:inherit;font-size:13px;font-weight:600;
+  padding:9px 16px;border-radius:10px;cursor:pointer;
+  background:rgba(255,255,255,.6);border:1px solid var(--edge);
+  color:var(--ink-soft);transition:.2s;
+}
+nav button:hover{background:#fff;border-color:var(--accent);color:var(--accent)}
+nav button.on{background:linear-gradient(90deg,var(--accent),var(--gold));color:#fff;border:none}
+
+/* CARDS */
+.card{
+  background:rgba(255,255,255,.78);backdrop-filter:blur(10px);
+  border:1px solid var(--edge);border-radius:18px;
+  padding:28px;margin-bottom:20px;
+  box-shadow:0 6px 24px rgba(26,33,64,.06);
+}
+.card h2{
+  font-family:'Playfair Display',serif;font-weight:700;font-size:26px;
+  margin-bottom:8px;letter-spacing:-.01em;
+}
+.card .lead{color:var(--ink-soft);font-size:15px;line-height:1.6;margin-bottom:18px}
+
+/* HOME */
+.hero{text-align:center;padding:20px 10px 8px}
+.hero h2{font-size:40px;line-height:1.1;margin-bottom:14px}
+.hero h2 .grad{background:linear-gradient(90deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:640px;margin:0 auto 22px;color:var(--ink-soft);font-size:16px;line-height:1.6}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{
+  font-family:inherit;font-size:14px;font-weight:600;
+  padding:13px 26px;border-radius:12px;cursor:pointer;border:none;
+  transition:.2s;
+}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--gold));color:#fff}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(91,118,224,.32)}
+.btn.ghost{background:rgba(255,255,255,.7);border:1px solid var(--edge);color:var(--ink-soft)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn.small{padding:8px 14px;font-size:12px;border-radius:9px}
+.btn.danger{background:#ffe9e7;color:#c0392b;border:1px solid #ffd0cb}
+
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:24px}
+.tile{
+  background:rgba(255,255,255,.7);border:1px solid var(--edge);
+  border-radius:14px;padding:22px;
+}
+.tile .letter{
+  font-family:'Playfair Display',serif;font-size:32px;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:block;line-height:1;margin-bottom:8px;
+}
+.tile h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.tile p{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* FORM */
+label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;margin-top:16px}
+label:first-child{margin-top:0}
+input[type=text],textarea,select{
+  font-family:inherit;font-size:14px;color:var(--ink);
+  width:100%;padding:12px 14px;border-radius:10px;
+  background:#fff;border:1px solid var(--edge);
+  transition:.2s;line-height:1.55;
+}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(91,118,224,.12)}
+textarea{resize:vertical;min-height:90px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.row2{grid-template-columns:1fr}}
+
+/* LESSON LIST */
+.lesson-item{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:16px;padding:16px 18px;margin-bottom:10px;
+  background:rgba(255,255,255,.7);border:1px solid var(--edge);
+  border-radius:12px;transition:.2s;
+}
+.lesson-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.lesson-item .info{flex:1;min-width:0}
+.lesson-item .title{font-weight:700;font-size:15px;color:var(--ink);margin-bottom:3px}
+.lesson-item .meta{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.lesson-item .actions{display:flex;gap:6px;flex-shrink:0}
+
+/* STAGE NAV */
+.stages{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.stage-btn{
+  flex:1;min-width:130px;
+  padding:14px 16px;border-radius:12px;cursor:pointer;
+  font-family:inherit;text-align:left;
+  background:rgba(255,255,255,.6);border:1px solid var(--edge);
+  transition:.2s;
+}
+.stage-btn:hover{border-color:var(--accent)}
+.stage-btn.on{background:linear-gradient(135deg,var(--accent),var(--gold));color:#fff;border:none;box-shadow:0 6px 18px rgba(91,118,224,.22)}
+.stage-btn .l{font-family:'Playfair Display',serif;font-weight:800;font-size:20px;display:block;line-height:1}
+.stage-btn .n{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+.stage-btn.on .l,.stage-btn.on .n{color:#fff}
+
+/* BUNKER ROLES */
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:14px}
+.role{
+  background:rgba(255,255,255,.75);border:1px solid var(--edge);
+  border-radius:12px;padding:14px;cursor:pointer;transition:.2s;
+}
+.role:hover{border-color:var(--gold);transform:translateY(-3px)}
+.role.on{border-color:var(--accent);background:linear-gradient(180deg,rgba(91,118,224,.06),rgba(200,145,63,.06))}
+.role .r-num{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.role .r-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin:3px 0 4px}
+.role .r-task{font-size:12px;color:var(--muted);line-height:1.45}
+
+/* CHAIN */
+.chain{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.chain .node{
+  flex:1;min-width:180px;max-width:280px;
+  padding:20px 16px;text-align:center;
+  background:rgba(255,255,255,.8);border:1px solid var(--edge);
+  border-radius:14px;
+}
+.chain .node .num{font-size:10px;letter-spacing:.28em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:6px}
+.chain .node .word{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;margin-bottom:6px}
+.chain .node .ex{font-size:12px;color:var(--muted);font-style:italic}
+.chain .arrow{color:var(--accent);font-size:22px;font-weight:700}
+
+/* STATUS BAR */
+.status{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:10px 16px;margin-bottom:16px;
+  background:rgba(255,255,255,.6);border:1px solid var(--edge);
+  border-radius:12px;font-size:12px;color:var(--muted);
+  letter-spacing:.04em;flex-wrap:wrap;
+}
+.status .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;vertical-align:middle}
+
+/* HINT */
+.hint{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:12px 14px;margin-top:14px;
+  background:rgba(232,161,92,.1);border-left:3px solid var(--gold);
+  border-radius:0 10px 10px 0;font-size:13px;color:var(--ink-soft);line-height:1.5;
+}
+
+.hidden{display:none!important}
+
+footer{
+  text-align:center;margin-top:40px;font-size:12px;
+  color:var(--muted);letter-spacing:.08em;
+}
+footer strong{color:var(--gold);font-weight:700}
+
+@media print{
+  body{background:#fff}
+  header.top,nav,.btn,.status,footer{display:none!important}
+  .card{box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand" onclick="go('home')">
+    <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#5b76e0"/><stop offset="50%" stop-color="#c8913f"/><stop offset="100%" stop-color="#5b76e0"/>
+        </linearGradient>
+        <path id="arc1" d="M60 200 Q350 20 640 200" fill="none"/>
+      </defs>
+      <line x1="20" y1="262" x2="680" y2="262" stroke="#5b76e0" stroke-width="2" opacity=".4"/>
+      <line x1="60" y1="200" x2="60" y2="262" stroke="#c8913f" stroke-width="5"/>
+      <line x1="205" y1="140" x2="205" y2="262" stroke="#c8913f" stroke-width="5"/>
+      <line x1="350" y1="115" x2="350" y2="262" stroke="#c8913f" stroke-width="5"/>
+      <line x1="495" y1="140" x2="495" y2="262" stroke="#c8913f" stroke-width="5"/>
+      <line x1="640" y1="200" x2="640" y2="262" stroke="#c8913f" stroke-width="5"/>
+      <use href="#arc1" stroke="url(#g1)" stroke-width="4"/>
+    </svg>
+    <div>
+      <h1>BRIDGE</h1>
+      <div class="sub">Learning Platform</div>
+    </div>
+  </div>
+  <nav>
+    <button data-nav="home" onclick="go('home')">Home</button>
+    <button data-nav="teacher" onclick="go('teacher')">Teacher</button>
+    <button data-nav="student" onclick="go('student')">Student</button>
+    <button data-nav="about" onclick="go('about')">The Method</button>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ HOME ============ -->
+  <section id="page-home">
+    <div class="card hero">
+      <h2>From reading to <span class="grad">speaking and writing</span>.</h2>
+      <p>BRIDGE is a six-stage method. Students build vocabulary, retrieve evidence from a text, connect ideas, speak in the Bunker role-play discussion, write their own response and revise it.</p>
+      <div class="hero-actions">
+        <button class="btn primary" onclick="go('teacher')">Start as Teacher</button>
+        <button class="btn ghost" onclick="go('student')">Start as Student</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>BRIDGE — 6 Stages</h2>
+      <p class="lead">The product of each stage becomes a resource for the next task.</p>
+      <div class="grid3">
+        <div class="tile"><span class="letter">B</span><h3>Brainstorm</h3><p>Recall relevant words and initial ideas before any support is given.</p></div>
+        <div class="tile"><span class="letter">R</span><h3>Read &amp; Retrieve</h3><p>Find the main idea and select one relevant detail from the text.</p></div>
+        <div class="tile"><span class="letter">I</span><h3>Ideas Connection</h3><p>What does the text say? Why does it matter? What proposal follows?</p></div>
+        <div class="tile"><span class="letter">D</span><h3>Debate + Bunker</h3><p>Role-play discussion — the speaking technique of the method.</p></div>
+        <div class="tile"><span class="letter">G</span><h3>Generate</h3><p>Turn an idea refined in discussion into an independent written text.</p></div>
+        <div class="tile"><span class="letter">E</span><h3>Evaluate</h3><p>Check against criteria, revise one sentence or justify it.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEACHER ============ -->
+  <section id="page-teacher" class="hidden">
+    <div class="card">
+      <h2>Teacher Panel</h2>
+      <p class="lead">Create a BRIDGE task for any subject. Students work in the browser and their answers are saved automatically.</p>
+
+      <label>Lesson Title</label>
+      <input type="text" id="t-title" placeholder="e.g. Golden Eagles of Kazakhstan">
+
+      <label>Grade / Level</label>
+      <input type="text" id="t-grade" placeholder="e.g. Grade 11 · B1">
+
+      <div class="row2">
+        <div>
+          <label>Reading Text</label>
+          <textarea id="t-text" placeholder="Paste the reading text here..." style="min-height:180px"></textarea>
+        </div>
+        <div>
+          <label>Teacher Note (optional)</label>
+          <textarea id="t-teacher" placeholder="e.g. Write a 50–70 word paragraph." style="min-height:180px"></textarea>
+        </div>
+      </div>
+
+      <label>Bunker Roles (one per line: Name | Task)</label>
+      <textarea id="t-roles" style="min-height:140px" placeholder="Ornithologist | Study eagle numbers and habitats
+Ecologist | Assess impact on the ecosystem
+Veterinarian | Help injured birds
+Reserve Officer | Protect the reserve area
+Engineer | Reduce danger from power lines
+Heritage Researcher | Explain cultural importance"></textarea>
+
+      <div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" onclick="saveLesson()">Save Lesson</button>
+        <button class="btn ghost" onclick="fillExample()">Fill Example</button>
+        <button class="btn ghost" onclick="clearForm()">Clear</button>
+      </div>
+
+      <div class="hint">
+        <span>💡</span>
+        <div><strong>Tip:</strong> Change the Bunker roles for different topics. For Technology use: Engineer, Programmer, Designer, Ethicist. For Career Choice use: Doctor, Teacher, Engineer, Entrepreneur.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>My Lessons</h2>
+      <p class="lead" id="lesson-count">No lessons yet. Fill the form above and click "Save Lesson".</p>
+      <div id="lesson-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ STUDENT ============ -->
+  <section id="page-student" class="hidden">
+    <div class="card">
+      <h2>Student Workspace</h2>
+      <p class="lead">Select a lesson and complete the BRIDGE stages in order. Answers are saved automatically in your browser.</p>
+
+      <label>Select Lesson</label>
+      <select id="s-lesson" onchange="loadStudentLesson()"></select>
+
+      <div class="row2" style="margin-top:14px">
+        <div>
+          <label>Student Name (or code)</label>
+          <input type="text" id="s-name" placeholder="e.g. S-12" oninput="saveAnswers()">
+        </div>
+        <div>
+          <label>Date</label>
+          <input type="text" id="s-date" oninput="saveAnswers()">
+        </div>
+      </div>
+    </div>
+
+    <div id="student-work" class="hidden">
+      <div class="status">
+        <div><span class="dot"></span>Autosave enabled</div>
+        <div id="s-status">All stages empty</div>
+      </div>
+
+      <div class="stages" id="stage-nav"></div>
+
+      <div id="stage-content"></div>
+
+      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" onclick="downloadWork()">Download Work (.txt)</button>
+        <button class="btn ghost" onclick="printWork()">Print</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="page-about" class="hidden">
+    <div class="card">
+      <h2>What is the BRIDGE Method?</h2>
+      <p class="lead">BRIDGE is an author-designed method. Its goal is to move a learner from knowing words to saying and writing their own ideas.</p>
+      <div class="chain">
+        <div class="node"><div class="num">STEP 01</div><div class="word">FACT</div><div class="ex">"The text states that…"</div></div>
+        <div class="arrow">→</div>
+        <div class="node"><div class="num">STEP 02</div><div class="word">MEANING</div><div class="ex">"This matters because…"</div></div>
+        <div class="arrow">→</div>
+        <div class="node"><div class="num">STEP 03</div><div class="word">ACTION</div><div class="ex">"Our next step could be…"</div></div>
+      </div>
+      <p style="text-align:center;font-style:italic;color:var(--muted);margin-top:10px">This is the chain that connects reading to speaking and writing.</p>
+    </div>
+
+    <div class="card">
+      <h2>Bunker — the Speaking Technique</h2>
+      <p class="lead">Bunker is an author-designed role-play discussion technique used at Stage D of the BRIDGE method.</p>
+      <div class="grid3">
+        <div class="tile"><h3>Psychological ease</h3><p>Learners speak not in their own name but as a role. Speaking anxiety is reduced.</p></div>
+        <div class="tile"><h3>Everyone speaks</h3><p>Each role must present its opinion. No learner stays silent.</p></div>
+        <div class="tile"><h3>Text evidence</h3><p>Learners are required to rely on evidence from the text in their spoken response.</p></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <strong>BRIDGE</strong> · Learning Platform · Author: Zhusupova Ardak N. · 2026
+</footer>
+
+<script>
+/* ================= STATE ================= */
+const LS_LESSONS = 'bridge.lessons.en.v1';
+const LS_WORK    = 'bridge.work.en.v1';
+
+let lessons = [];
+let currentLessonId = null;
+let currentStage = 'B';
+let answers = { B:'', R:'', I:'', D:'', G:'', E:'', role:'' };
+
+/* ================= NAV ================= */
+function go(page){
+  document.querySelectorAll('section[id^="page-"]').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('page-'+page).classList.remove('hidden');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on', b.dataset.nav===page));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(page==='teacher') renderLessons();
+  if(page==='student') renderLessonSelect();
+}
+
+/* ================= STORAGE ================= */
+function loadStore(){
+  try{ lessons = JSON.parse(localStorage.getItem(LS_LESSONS)) || []; }catch(e){ lessons=[]; }
+}
+function saveStore(){ localStorage.setItem(LS_LESSONS, JSON.stringify(lessons)); }
+
+function loadWork(){
+  try{ const w = JSON.parse(localStorage.getItem(LS_WORK)) || {}; return w; }catch(e){ return {}; }
+}
+function saveWorkStore(w){ localStorage.setItem(LS_WORK, JSON.stringify(w)); }
+
+/* ================= TEACHER ================= */
+function saveLesson(){
+  const title = document.getElementById('t-title').value.trim();
+  const grade = document.getElementById('t-grade').value.trim();
+  const text  = document.getElementById('t-text').value.trim();
+  const tnote = document.getElementById('t-teacher').value.trim();
+  const rolesRaw = document.getElementById('t-roles').value.trim();
+
+  if(!title){ alert('Please enter a lesson title.'); return; }
+
+  const roles = rolesRaw.split('\n').map(l=>{
+    const [name, task] = l.split('|').map(s=>(s||'').trim());
+    return name ? {name, task: task||''} : null;
+  }).filter(Boolean);
+
+  const lesson = {
+    id: 'L'+Date.now(),
+    title, grade, text, note:tnote, roles,
+    created: new Date().toISOString()
+  };
+  lessons.unshift(lesson);
+  saveStore();
+  renderLessons();
+  clearForm();
+  alert('✅ Lesson saved!');
+}
+
+function clearForm(){
+  ['t-title','t-grade','t-text','t-teacher','t-roles'].forEach(id=>document.getElementById(id).value='');
+}
+
+function fillExample(){
+  document.getElementById('t-title').value = 'Golden Eagles of Kazakhstan';
+  document.getElementById('t-grade').value = 'Grade 11 · B1';
+  document.getElementById('t-text').value = `Golden eagles are one of the most powerful birds in Kazakhstan. They build their nests on high rocks and hunt small animals. However, their population is falling. Electrical power lines are a serious danger: many eagles die when they touch the wires. People also destroy their habitats. Some injured birds are rescued by volunteers and veterinarians, who treat them and later release them back into the wild. Protecting golden eagles is important not only for nature but also for the cultural heritage of Kazakhstan.`;
+  document.getElementById('t-teacher').value = 'Write a 50–70 word paragraph. Use at least one piece of evidence from the text.';
+  document.getElementById('t-roles').value = `Ornithologist | Study eagle numbers and habitats
+Ecologist | Assess impact on the ecosystem
+Veterinarian | Help injured birds
+Reserve Officer | Protect the reserve area
+Engineer | Reduce danger from power lines
+Heritage Researcher | Explain cultural importance`;
+}
+
+function renderLessons(){
+  const list = document.getElementById('lesson-list');
+  const count = document.getElementById('lesson-count');
+  if(!lessons.length){
+    list.innerHTML = '';
+    count.textContent = 'No lessons yet. Fill the form above and click "Save Lesson".';
+    return;
+  }
+  count.textContent = `${lessons.length} lesson(s) saved.`;
+  list.innerHTML = lessons.map(l=>`
+    <div class="lesson-item">
+      <div class="info">
+        <div class="title">${esc(l.title)}</div>
+        <div class="meta">${esc(l.grade||'—')} · ${l.roles.length} roles · ${new Date(l.created).toLocaleDateString()}</div>
+      </div>
+      <div class="actions">
+        <button class="btn ghost small" onclick="openStudent('${l.id}')">Student Mode</button>
+        <button class="btn ghost small" onclick="duplicateLesson('${l.id}')">Duplicate</button>
+        <button class="btn danger small" onclick="deleteLesson('${l.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function duplicateLesson(id){
+  const l = lessons.find(x=>x.id===id); if(!l) return;
+  const copy = {...l, id:'L'+Date.now(), title: l.title+' (copy)', created:new Date().toISOString()};
+  lessons.unshift(copy); saveStore(); renderLessons();
+}
+
+function deleteLesson(id){
+  if(!confirm('Delete this lesson?')) return;
+  lessons = lessons.filter(x=>x.id!==id);
+  saveStore(); renderLessons();
+}
+
+function openStudent(id){
+  currentLessonId = id;
+  go('student');
+  setTimeout(()=>{ document.getElementById('s-lesson').value = id; loadStudentLesson(); }, 50);
+}
+
+/* ================= STUDENT ================= */
+function renderLessonSelect(){
+  const sel = document.getElementById('s-lesson');
+  if(!lessons.length){
+    sel.innerHTML = '<option value="">— No lessons — ask your teacher —</option>';
+    return;
+  }
+  sel.innerHTML = '<option value="">— Select a lesson —</option>' +
+    lessons.map(l=>`<option value="${l.id}">${esc(l.title)}</option>`).join('');
+  if(currentLessonId) sel.value = currentLessonId;
+}
+
+function loadStudentLesson(){
+  const id = document.getElementById('s-lesson').value;
+  if(!id){
+    document.getElementById('student-work').classList.add('hidden');
+    return;
+  }
+  currentLessonId = id;
+  const lesson = lessons.find(l=>l.id===id);
+  if(!lesson) return;
+
+  document.getElementById('student-work').classList.remove('hidden');
+
+  if(!document.getElementById('s-date').value){
+    document.getElementById('s-date').value = new Date().toLocaleDateString();
+  }
+
+  const w = loadWork();
+  const name = document.getElementById('s-name').value.trim();
+  const key = id + '::' + (name||'anonymous');
+  answers = (w[key]) || {B:'',R:'',I:'',D:'',G:'',E:'',role:''};
+
+  currentStage = 'B';
+  renderStageNav();
+  renderStage();
+  updateStatus();
+}
+
+function saveAnswers(){
+  if(!currentLessonId) return;
+  const name = document.getElementById('s-name').value.trim();
+  const key = currentLessonId + '::' + (name||'anonymous');
+  const w = loadWork();
+  w[key] = { ...answers, date: document.getElementById('s-date').value };
+  saveWorkStore(w);
+  updateStatus();
+}
+
+function updateStatus(){
+  const filled = ['B','R','I','D','G','E'].filter(k=> (answers[k]||'').trim().length>0 ).length;
+  const el = document.getElementById('s-status');
+  el.textContent = `${filled} / 6 stages completed`;
+}
+
+const STAGES = [
+  {key:'B', name:'Brainstorm', label:'Words & ideas'},
+  {key:'R', name:'Read & Retrieve', label:'Text evidence'},
+  {key:'I', name:'Ideas Connection', label:'What? Why? Proposal?'},
+  {key:'D', name:'Debate + Bunker', label:'Role-play discussion'},
+  {key:'G', name:'Generate', label:'Written text'},
+  {key:'E', name:'Evaluate', label:'Revision'}
+];
+
+function renderStageNav(){
+  document.getElementById('stage-nav').innerHTML = STAGES.map(s=>`
+    <button class="stage-btn ${s.key===currentStage?'on':''}" onclick="setStage('${s.key}')">
+      <span class="l">${s.key}</span>
+      <span class="n">${s.name}</span>
+    </button>
+  `).join('');
+}
+
+function setStage(k){
+  currentStage = k;
+  renderStageNav();
+  renderStage();
+}
+
+function renderStage(){
+  const lesson = lessons.find(l=>l.id===currentLessonId);
+  if(!lesson) return;
+  const el = document.getElementById('stage-content');
+  let body = '';
+
+  if(currentStage==='B'){
+    body = `
+      <div class="card">
+        <h2>B — Brainstorm</h2>
+        <p class="lead">Before any word bank is given, write down words you already know about the topic and your initial ideas.</p>
+        <label>My words and initial ideas</label>
+        <textarea id="ans-B" style="min-height:180px" oninput="setAns('B',this.value)" placeholder="eagle, habitat, protect...">${esc(answers.B)}</textarea>
+      </div>`;
+  }
+  else if(currentStage==='R'){
+    body = `
+      <div class="card">
+        <h2>R — Read &amp; Retrieve</h2>
+        <p class="lead">Read the text. Find the main idea and one detail you will use as evidence. Note where it is in the text.</p>
+        ${lesson.text ? `<div style="background:rgba(255,255,255,.7);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:16px 18px;margin-bottom:14px;font-size:14px;line-height:1.65;color:var(--ink-soft)">${esc(lesson.text)}</div>` : '<div class="hint"><span>⚠️</span><div>No text was added by the teacher.</div></div>'}
+        <label>Main Idea</label>
+        <textarea id="ans-R-main" style="min-height:60px" oninput="setAns('R-main',this.value)" placeholder="The main idea of the text is...">${esc((answers['R-main']||''))}</textarea>
+        <label style="margin-top:14px">Selected Detail and Its Location</label>
+        <textarea id="ans-R" style="min-height:120px" oninput="setAns('R',this.value)" placeholder="The text states: '...' (paragraph 2)">${esc(answers.R)}</textarea>
+      </div>`;
+  }
+  else if(currentStage==='I'){
+    body = `
+      <div class="card">
+        <h2>I — Ideas Connection</h2>
+        <p class="lead">Answer three questions. This is the central part of the BRIDGE method.</p>
+        <div class="chain">
+          <div class="node"><div class="num">01</div><div class="word">FACT</div><div class="ex">What does the text say?</div></div>
+          <div class="arrow">→</div>
+          <div class="node"><div class="num">02</div><div class="word">MEANING</div><div class="ex">Why does it matter?</div></div>
+          <div class="arrow">→</div>
+          <div class="node"><div class="num">03</div><div class="word">ACTION</div><div class="ex">What proposal follows?</div></div>
+        </div>
+        <label>My Connection</label>
+        <textarea id="ans-I" style="min-height:200px" oninput="setAns('I',this.value)" placeholder="The text states that... This matters because... Our next step could be...">${esc(answers.I)}</textarea>
+        <div class="hint"><span>💡</span><div>Example: <em>According to the text, electrical power lines are a danger to eagles. This matters because many birds die. Therefore, qualified specialists could make the lines safer, and our eco-club could raise awareness.</em></div>
+      </div>`;
+  }
+  else if(currentStage==='D'){
+    const roles = lesson.roles && lesson.roles.length ? lesson.roles :
+      [{name:'Role 1',task:''},{name:'Role 2',task:''},{name:'Role 3',task:''}];
+    body = `
+      <div class="card">
+        <h2>D — Debate + Bunker</h2>
+        <p class="lead">Choose your role. Speak as the role, not as yourself. Support your proposal with evidence from the text.</p>
+        <div class="roles">
+          ${roles.map((r,i)=>`
+            <div class="role ${answers.role===r.name?'on':''}" onclick="pickRole('${escAttr(r.name)}')">
+              <div class="r-num">ROLE ${i+1}</div>
+              <div class="r-name">${esc(r.name)}</div>
+              <div class="r-task">${esc(r.task)}</div>
+            </div>
+          `).join('')}
+        </div>
+        <label style="margin-top:18px">My Role's Proposal</label>
+        <textarea id="ans-D" style="min-height:160px" oninput="setAns('D',this.value)" placeholder="As a ${answers.role||'[role]'}, I propose... According to the text...">${esc(answers.D)}</textarea>
+        <div class="hint"><span>🗣</span><div>Speaking as a role reduces speaking anxiety. You are not defending your own opinion — you are presenting your role's perspective.</div></div>
+      </div>`;
+  }
+  else if(currentStage==='G'){
+    body = `
+      <div class="card">
+        <h2>G — Generate</h2>
+        <p class="lead">Turn your refined idea into a written text for a specific audience.</p>
+        ${lesson.note ? `<div class="hint"><span>📝</span><div>${esc(lesson.note)}</div></div>` : ''}
+        <label>My Text</label>
+        <textarea id="ans-G" style="min-height:220px" oninput="setAns('G',this.value);countWords()" placeholder="Write your paragraph here...">${esc(answers.G)}</textarea>
+        <div style="font-size:12px;color:var(--muted);margin-top:8px" id="wc">0 words</div>
+      </div>`;
+    setTimeout(countWords, 10);
+  }
+  else if(currentStage==='E'){
+    body = `
+      <div class="card">
+        <h2>E — Evaluate</h2>
+        <p class="lead">Check your text against the criteria. Revise one sentence, or explain why it already meets a criterion.</p>
+        <div style="display:grid;gap:10px;margin-bottom:14px">
+          <label style="display:flex;gap:10px;align-items:center;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)">
+            <input type="checkbox" style="width:auto"> The idea is clear
+          </label>
+          <label style="display:flex;gap:10px;align-items:center;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)">
+            <input type="checkbox" style="width:auto"> Text evidence is included
+          </label>
+          <label style="display:flex;gap:10px;align-items:center;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)">
+            <input type="checkbox" style="width:auto"> The reason is explained
+          </label>
+          <label style="display:flex;gap:10px;align-items:center;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)">
+            <input type="checkbox" style="width:auto"> Vocabulary is appropriate
+          </label>
+        </div>
+        <label>My Revision or Justification</label>
+        <textarea id="ans-E" style="min-height:160px" oninput="setAns('E',this.value)" placeholder="I revised the sentence: ... because: ...">${esc(answers.E)}</textarea>
+      </div>`;
+  }
+
+  el.innerHTML = body;
+}
+
+function setAns(k, v){ answers[k] = v; saveAnswers(); }
+function pickRole(name){
+  answers.role = name;
+  saveAnswers();
+  renderStage();
+}
+function countWords(){
+  const t = document.getElementById('ans-G');
+  if(!t) return;
+  const n = (t.value.trim().match(/\S+/g)||[]).length;
+  document.getElementById('wc').textContent = n + ' words';
+}
+
+function downloadWork(){
+  const lesson = lessons.find(l=>l.id===currentLessonId);
+  if(!lesson) return;
+  const name = document.getElementById('s-name').value.trim() || 'student';
+  const date = document.getElementById('s-date').value || '';
+  const L = [];
+  L.push('========================================');
+  L.push('BRIDGE — Learning Platform');
+  L.push('Lesson: ' + lesson.title);
+  L.push('Grade: ' + (lesson.grade||'—'));
+  L.push('Student: ' + name);
+  L.push('Date: ' + date);
+  L.push('========================================\n');
+  L.push('B — BRAINSTORM\n' + (answers.B||'—') + '\n');
+  L.push('R — READ & RETRIEVE');
+  L.push('Main idea: ' + (answers['R-main']||'—'));
+  L.push('Evidence: ' + (answers.R||'—') + '\n');
+  L.push('I — IDEAS CONNECTION\n' + (answers.I||'—') + '\n');
+  L.push('D — DEBATE + BUNKER');
+  L.push('Role: ' + (answers.role||'—'));
+  L.push('Proposal: ' + (answers.D||'—') + '\n');
+  L.push('G — GENERATE\n' + (answers.G||'—') + '\n');
+  L.push('E — EVALUATE\n' + (answers.E||'—'));
+  const blob = new Blob([L.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'bridge-'+name.replace(/\s+/g,'_')+'.txt';
+  a.click();
+}
+
+function printWork(){ window.print(); }
+
+/* ================= UTILS ================= */
+function esc(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escAttr(s){ return esc(s).replace(/'/g,'&#39;'); }
+
+/* ================= INIT ================= */
+loadStore();
+document.getElementById('s-date').value = new Date().toLocaleDateString();
+go('home');
+</script>
+</body>
+</html>
